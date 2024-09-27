@@ -1,0 +1,6 @@
+
+------- APUNTES PROYECTO GESTION_CARRERA C# 
+
+
+-- Creacion de proyecto
+	-- dotnet new console -o GestionCarrera : para crear proyecto de consola
