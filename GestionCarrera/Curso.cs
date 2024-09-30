@@ -75,6 +75,8 @@ public class Curso
             Console.WriteLine("Se debe poner un valor a los horarios.");
         else
         {
+            // this.Horario.SetHoraInicio(HoraI);
+            // this.Horario.SetHoraFin(HoraF);
             this.Horario.SetHoraInicio(HoraI);
             this.Horario.SetHoraFin(HoraF);
         }
