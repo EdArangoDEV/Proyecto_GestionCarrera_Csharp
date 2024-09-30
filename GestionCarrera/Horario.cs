@@ -71,4 +71,20 @@ public class Horario
         }
     }
 
+    public int GetHoraInicio(){
+        return this.HoraInicio;
+    }
+
+    public void SetHoraInicio(int hInicio){
+        this.HoraInicio = hInicio;
+    }
+
+    public int GetHoraFin(){
+        return this.HoraFin;
+    }
+
+    public void SetHoraFin(int hFin){
+        this.HoraFin = hFin;
+    }
+
 }
