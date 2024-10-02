@@ -6,6 +6,12 @@ public class Semestre{
     protected int Numero { get; set; }
     protected List<Curso> Cursos { get; set; }
 
+    public Semestre(int Num)
+    {
+        SetNumero(Num);
+        this.Cursos = new List<Curso>();
+    }
+
 
     public override string ToString()
     {
@@ -35,6 +41,8 @@ public class Semestre{
 
         this.Codigo = int.Parse(cod);
     }
+
+    
 
 
 
