@@ -28,7 +28,7 @@ public class Semestre{
         }      
     }
 
-    protected void SetCodigo(int numero){
+    private void SetCodigo(int numero){
         string cod = "";
         string n = numero.ToString();
         cod = "10" + n;
@@ -37,5 +37,5 @@ public class Semestre{
     }
 
 
-    
+
 }
