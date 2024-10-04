@@ -22,7 +22,7 @@ public class Carrera{
 
     public override string ToString()
     {
-        return $"Carrera {this.Nombre}, descripcioó: {this.Descripcion}, con duración de: {this.Duracion} semestres y Director: {this.Director}";
+        return $"Carrera {this.Nombre}, descripción: {this.Descripcion}, con duración de: {this.Duracion} semestres y Director: {this.Director}";
     }
 
     //Metodos de Acceso
@@ -45,7 +45,7 @@ public class Carrera{
         if (nDesc.Length <= 5)
             Console.WriteLine("No se puede poner la Descripcion de la carrera vacio o menor a 5 letras");
         else
-            this.Nombre = nDesc;
+            this.Descripcion = nDesc;
     }
 
     public int GetDuracion(){
@@ -77,7 +77,7 @@ public class Carrera{
         }
     }
 
-    public void agregarSemestres(){
+    public void AgregarSemestres(){
         for (int i = 1; i < this.Duracion + 1; i++)
         {
             Semestre semestre = new Semestre(i);
@@ -91,6 +91,24 @@ public class Carrera{
 
     public void SetDirector(Director director){
         this.Director = director;
+    }
+
+    public Profesor GetProfesores(int cod){
+        Profesor p = null;
+
+        foreach (Semestre semestre in this.Semestres)
+        {
+            p = semestre.BusquedaProfesor(cod);
+
+            if (p != null)
+            {
+                if (p.GetCodigo().Equals(cod))
+                {
+                    return p;
+                }
+            }
+        }
+        return p;
     }
 
     

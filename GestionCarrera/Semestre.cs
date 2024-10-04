@@ -42,7 +42,34 @@ public class Semestre{
         this.Codigo = int.Parse(cod);
     }
 
-    
+
+    public void AgregarCurso(Curso c){
+        this.Cursos.Add(c);
+        Console.WriteLine("Se agrego el curso: " + c.GetNombre() + " al semestre numero " + this.GetNumero() + "\n");
+    }
+
+    public void EliminarCurso(Curso c){
+        this.Cursos.Remove(c);
+        Console.WriteLine("Se elimino el curso: " + c.GetNombre() + " con " + c.GetHorario() + "\n");
+    }
+
+
+    public Profesor BusquedaProfesor(int cod){
+        Profesor p = null;
+
+        if (this.Cursos.Count != 0)
+        {
+            foreach (Curso curso in this.Cursos)
+            {
+                if (curso.GetProfesor().GetCodigo().Equals(cod))
+                {
+                    p = curso.GetProfesor();
+                    return p;
+                }
+            }
+        }
+        return p;
+    }
 
 
 
