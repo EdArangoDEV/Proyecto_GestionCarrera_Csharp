@@ -73,6 +73,7 @@ public class Carrera{
         {
             Console.WriteLine($"La carrera: {GetNombre()}, tiene los siguientes semestres:");
             this.Semestres.ForEach(Semestre => {Console.WriteLine($"\nSemestre {Semestre.GetNumero()}");
+            Semestre.GetCursos();
             });
         }
     }
@@ -111,5 +112,4 @@ public class Carrera{
         return p;
     }
 
-    
 }

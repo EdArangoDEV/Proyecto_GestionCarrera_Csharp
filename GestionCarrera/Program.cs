@@ -42,10 +42,10 @@ public class Institucion
                     break;
                 case 2:
                     ;
-                    //editarDirector(cr1, cr1.director);
+                    EditarDirector(cr1, cr1.GetDirector());
                     break;
                 case 3:
-                   // editarSemestres(cr1);
+                   EditarSemestres(cr1);
                     break;
                 case 4:
                     Console.WriteLine("\nSaliendo del programa...");
@@ -148,7 +148,6 @@ public class Institucion
                     break;
                 case 3:
                     Console.WriteLine("\nRegresando a Menu principal...");
-                    LimpiarConsola();
                     return;
                 default:
                     Console.WriteLine("\nOpción inválida. Intente de nuevo.\n");
@@ -235,10 +234,10 @@ public class Institucion
                     break;
                 case 2:
                     Console.WriteLine("\nRegresando a Menu principal...");
-                    LimpiarConsola();
                     return;
                 default:
                     Console.WriteLine("\nOpción inválida. Intente de nuevo.");
+                    LimpiraIngreso();
                     break;
             }
 
@@ -280,7 +279,7 @@ public class Institucion
     private static void EditarSemestres(Carrera carrera){
 
         do {
-            carrera.GetSemestres();
+            carrera.GetInfoSemestres();
             MenuSemestres();
             int opcionPrincipal = LeerOpcion();
 
@@ -292,7 +291,7 @@ public class Institucion
                     List<Semestre> ListSemestres = carrera.GetSemestres();
                     Semestre semestre = ListSemestres[nSemestre - 1];
                     LimpiraIngreso();
-                    editarCursos(semestre, carrera);
+                    EditarCursos(semestre, carrera);
                     break;
                 case 2:
                     Console.WriteLine("\nRegresando a Menu principal...\n");
@@ -304,6 +303,36 @@ public class Institucion
 
         } while (true);
 
+    }
+
+    private static void AgregarCurso(Semestre semestre, Carrera carrera) {
+        int nHoraF = 0;
+        int nHoraI = 0;
+
+        LimpiraIngreso();
+        Console.Write("Ingrese el nombre del curso: ");
+        string nNombreC = Console.ReadLine();
+        LimpiraIngreso();
+        Console.WriteLine($"Nombre ingresado: {nNombreC}\n");
+        Console.Write("Ingrese creditos del curso: ");
+        int nCreditos = int.Parse(Console.ReadLine());
+        LimpiraIngreso();
+        Console.WriteLine($"Nombre de curso ingresado: {nNombreC}, Creditos del curso ingresado: {nCreditos}\n");
+        Console.Write("Ingrese dia: ");
+        string nDia = Console.ReadLine();
+        LimpiraIngreso();
+        Console.WriteLine($"Nombre de curso ingresado: {nNombreC}, Creditos del curso ingresado: {nCreditos}, dia ingresado: {nDia}\n");
+
+        nHoraI = IngresarHora("Inicio");
+
+        nHoraF = ValidarHoraF(nHoraI);
+
+        Console.WriteLine(
+                $"Nombre de curso ingresado: {nNombreC}, Creditos del curso ingresado: {nCreditos}, dia ingresado: {nDia}, con horario de {nHoraI} a {nHoraF}\n");
+        Profesor resP = AgregarProfesor(carrera);
+        Horario h = new Horario(nDia, nHoraI, nHoraF);
+        Curso c = new Curso(nNombreC, nCreditos, h, resP);
+        semestre.AgregarCurso(c);
     }
 
     private static int NumeroCurso() {
@@ -350,7 +379,102 @@ public class Institucion
         return nHoraF;
     }
 
+    private static void EditarCursos(Semestre semestre, Carrera carrera){
 
+        do {
+            Console.WriteLine("Cursos actuales del Semestre " + semestre.GetNumero());
+            bool res = semestre.GetCursos();
+
+            if (!res) {
+                Console.WriteLine("\nOpciones datos Cursos:\n");
+                Console.WriteLine("1. Agregar curso");
+                Console.WriteLine("2. regresar");
+                int opcionPrincipal = LeerOpcion();
+
+                switch (opcionPrincipal) {
+                    case 1:
+                        AgregarCurso(semestre, carrera);
+                        break;
+                    case 2:
+                        Console.WriteLine("\nRegresando a opciones semestre...");
+                        return;
+                    default:
+                        Console.WriteLine("\nOpción inválida. Intente de nuevo.\n");
+                        LimpiraIngreso();
+                        break;
+                }
+            } else {
+                MenuCursos();
+                int opcionPrincipal = LeerOpcion();
+                int nCurso;
+                Curso Curso;
+                List<Curso> Cursos;
+
+                switch (opcionPrincipal) {
+                    case 1:
+                        nCurso = NumeroCurso();
+                        Cursos = semestre.GetListCursos();
+                        Curso = Cursos[nCurso - 1];
+                        LimpiraIngreso();
+                        Console.WriteLine($"Nombre actual de curso {nCurso}: {Curso.GetNombre()} \n");
+                        Console.Write("Ingrese nuevo nombre del curso: ");
+                        string nNombre = Console.ReadLine();
+                        LimpiraIngreso();
+                        Curso.SetNombre(nNombre);
+                        break;
+                    case 2:
+                        int nHoraF = 0;
+                        int nHoraI = 0;
+                        nCurso = NumeroCurso();
+                        Cursos = semestre.GetListCursos();
+                        Curso = Cursos[nCurso - 1];
+                        LimpiraIngreso();
+                        Horario horario = Curso.GetHorario();
+                        Console.WriteLine($"Horario actual de Curso {Curso.GetNombre()}: { Curso.GetHora()}\n");
+                        nHoraI = IngresarHora("Inicio");
+                        LimpiraIngreso();
+                        nHoraF = ValidarHoraF(nHoraI);
+                        LimpiraIngreso();
+                        horario.SetHoraInicio(nHoraI);
+                        horario.SetHoraFin(nHoraF);
+                        Curso.SetHorario(horario);
+                        break;
+                    case 3:
+                        nCurso = NumeroCurso();
+                        Cursos = semestre.GetListCursos();
+                        Curso = Cursos[nCurso - 1];
+                        LimpiraIngreso();
+                        Console.WriteLine($"Profesor actual del curso {Curso.GetNombre()}: {Curso.GetProfesor()}\n");
+                        Profesor p = AgregarProfesor(carrera);
+                        LimpiraIngreso();
+                        Curso.GetProfesor().SetCodigo(p.GetCodigo());
+                        Curso.GetProfesor().SetNombre(p.GetNombre());
+                        Curso.GetProfesor().SetEspecialidad(p.GetEspecialidad());
+                        break;
+                    case 4:
+                        AgregarCurso(semestre, carrera);
+                        break;
+                    case 5:
+                        nCurso = NumeroCurso();
+                        Cursos = semestre.GetListCursos();
+                        Curso = Cursos[nCurso - 1];
+                        LimpiraIngreso();
+                        // Console.WriteLine(curso);
+                        semestre.EliminarCurso(Curso);
+                        break;
+                    case 6:
+                        Console.WriteLine("\nRegresando a Opciones semestre...\n");
+                        LimpiraIngreso();
+                        return;
+                    default:
+                        Console.WriteLine("\nOpción inválida. Intente de nuevo.\n");
+                        LimpiraIngreso();
+                        break;
+                }
+            }
+
+        } while (true);
+    }
 
     public static int LeerOpcion()
     {
@@ -366,8 +490,7 @@ public class Institucion
             }
             catch (System.Exception)
             {
-                Console.Clear();
-                Console.WriteLine("Entrada inválida. Porfavor ingrese un numero.");
+                Console.WriteLine("\nEntrada inválida. Porfavor ingrese un numero.");
             }
         }
 
